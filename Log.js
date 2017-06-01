@@ -115,7 +115,7 @@
 		var ex = options.e || null, guess = !!options.guess;
 		var p = new printStackTrace.implementation();
 		var response = p.run(ex);
-		if (guess) {
+		if (!guess) {
 			response.stackTrace = p.guessAnonymousFunctions(response.stackTrace);
 		}
 		return response;
