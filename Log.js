@@ -245,7 +245,7 @@
 		 * @param e - Error object to inspect
 		 * @return Array<String> of function calls, files and line numbers
 		 */
-		chrome: function(e) {
+		Chrome: function(e) {
 			var stack = (e.stack + '\n').replace(/^\S[^\(]+?[\n$]/gm, '').
 				replace(/^\s+(at eval )?at\s+/gm, '').
 				replace(/^([^\(]+?)([\n$])/gm, '{anonymous}()@$1$2').
