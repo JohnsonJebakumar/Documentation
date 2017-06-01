@@ -137,20 +137,26 @@
 
 			// examine exception properties w/o debugger
 			//for (var prop in ex) {alert("Ex['" + prop + "']=" + ex[prop]);}
-			mode = mode || this.mode(ex);
+			mode = mode || this.getCurrentBrowser() || {browserName:'other',browserVersion:null};
 			var stackTrace;
-			if (mode === 'other') {
+			if (mode.browserName === 'other') {
 				stackTrace = this.other(arguments.callee);
 			} else {
-				stackTrace = this[mode](ex);
+				stackTrace = mode.browserName(ex);
 			}
 
 			return {
-				browser: mode,
+				browser: mode.browserName,
 				stackTrace: stackTrace
 			};
 		},
 
+		getCurrentBrowser: function(){
+			var browserDetails=navigator.userAgent;
+			var browserArray=browserDetails.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+			return {browserName:browserArray[1],browserVersion:browserArray[2]};
+		}
+		
 		createException: function() {
 			try {
 				this.undef();
