@@ -143,7 +143,7 @@
 			if (mode.browserName === 'other') {
 				stackTrace = this.other(arguments.callee);
 			} else {
-				stackTrace = this[mode.browserName](ex);
+				stackTrace = this.eval(mode.browserName+"(ex)");
 			}
 
 			return {
