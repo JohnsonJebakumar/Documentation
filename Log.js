@@ -155,7 +155,7 @@
 			var browserDetails=navigator.userAgent;
 			var browserArray=browserDetails.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
 			return {browserName:browserArray[1],browserVersion:browserArray[2]};
-		}
+		},
 		
 		createException: function() {
 			try {
