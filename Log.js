@@ -15,7 +15,8 @@
 
 
 	window.addEventListener('error',function(e) {
-		var stackTraceInfo = printStackTrace();
+		var options={e : e, guess : true};
+		var stackTraceInfo = printStackTrace(options);
 		console.log(stackTraceInfo);
 		var errorInfo = {
 			url:        "Nothing",
