@@ -138,6 +138,7 @@
 			// examine exception properties w/o debugger
 			//for (var prop in ex) {alert("Ex['" + prop + "']=" + ex[prop]);}
 			mode = mode || this.getCurrentBrowser() || {browserName:'other',browserVersion:null};
+			console.log(mode);
 			var stackTrace;
 			if (mode.browserName === 'other') {
 				stackTrace = this.other(arguments.callee);
