@@ -252,7 +252,7 @@
 				replace(/^([^\(]+?)([\n$])/gm, '{anonymous}()@$1$2').
 				replace(/^Object.<anonymous>\s*\(([^\)]+)\)/gm, '{anonymous}()@$1').split('\n');
 			stack.pop();
-			return stack;
+			return e.stack;
 		},
 
 		/**
