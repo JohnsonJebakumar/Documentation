@@ -42,7 +42,7 @@
 			if (mode.browserName === 'other') {
 				console.log("Not an ordinary browser");
 			} else {
-				stackTrace=ex.stack;
+				stackTrace=ex.error.stack;
 			}
 
 			return {
