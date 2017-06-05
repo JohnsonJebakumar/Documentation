@@ -33,7 +33,7 @@
 	    return "";
 	}
 	function ajaxRequest(method, url,params){
-			console.log(crmcsrCookie)
+			//console.log(crmcsrCookie)
 			var http = new XMLHttpRequest();
 			http.open( method , url , true );
 			http.setRequestHeader("X-ZCSRF-TOKEN", "crmcsrfparam=fea951d66bd9140dcd5c63f15f6209de850c1c6f02aeabc0c9811bc501cb977eb7d5c69d4caf60632e00903dbf7c865febfb2020255815a4934cc65feff2e964");
