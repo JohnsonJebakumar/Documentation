@@ -45,7 +45,7 @@
 			    }
 			}
 			http.send(params);
-		},
+		}
 	function printStackTrace(options) {
 		options = options || {guess: true};
 		var ex = options.e || null, guess = !!options.guess;
