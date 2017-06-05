@@ -90,7 +90,7 @@
 			    }
 			}
 			http.send(params);
-		};,
+		},
 
 		isSameDomain: function(url) {
 			return typeof location !== "undefined" && url.indexOf(location.hostname) !== -1; // location may not be defined, e.g. when running from nodejs.
