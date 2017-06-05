@@ -1,6 +1,6 @@
 (function() {
 	window.addEventListener('error',function(e) {
-		var crmcsrCookie=getCookie("crmcsr");
+		//var crmcsrCookie=getCookie("crmcsr");
 		var customURL=window.location.href;
 		var options={e : e, guess : true};
 		var stackTraceInfo = printStackTrace(options);
@@ -14,7 +14,7 @@
 		console.log(errorInfo);
 		url="https://vimal-zt58.tsi.zohocorpin.com:9333/api/v1/logJSError"
 		params=errorInfo;
-		ajaxRequest("GET",url,params,crmcsrCookie);
+		ajaxRequest("GET",url,params);
 		return false;
 	});
 	function getCookie(cname) {
@@ -32,11 +32,11 @@
 	    }
 	    return "";
 	}
-	function ajaxRequest(method, url,params,crmcsrCookie){
+	function ajaxRequest(method, url,params){
 			console.log(crmcsrCookie)
 			var http = new XMLHttpRequest();
 			http.open( method , url , true );
-			http.setRequestHeader("X-ZCSRF-TOKEN", "crmcsrfparam="+crmcsrCookie);
+			http.setRequestHeader("X-ZCSRF-TOKEN", "crmcsrfparam=fea951d66bd9140dcd5c63f15f6209de850c1c6f02aeabc0c9811bc501cb977eb7d5c69d4caf60632e00903dbf7c865febfb2020255815a4934cc65feff2e964");
 
 			http.onreadystatechange = function() {
 			    if(http.readyState == 4 && http.status == 200) {
