@@ -9,7 +9,7 @@
 			url:customURL,
 			lineNo:"1",
 			columnNo:"1",
-			errorStack:stackTraceInfo.stackTrace,
+			errorStack:"stackTraceInfo.stackTrace",
 		};
 		console.log(errorInfo);
 		console.log(typeof(stackTraceInfo.stackTrace));
