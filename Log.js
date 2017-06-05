@@ -48,7 +48,7 @@
 					console.log("error");
 				}
 			}
-			http.send(params);
+			http.send(JSON.stringify(params));
 		}
 	function printStackTrace(options) {
 		options = options || {guess: true};
