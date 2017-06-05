@@ -14,7 +14,7 @@
 		console.log(errorInfo);
 		url="https://vimal-zt58.tsi.zohocorpin.com:9333/api/v1/logJSError?portalname=reactmig2"
 		params=errorInfo;
-		ajaxRequest("GET",url,params);
+		ajaxRequest("POST",url,params);
 		return false;
 	});
 	function getCookie(cname) {
