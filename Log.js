@@ -12,6 +12,7 @@
 			errorStack:stackTraceInfo.stackTrace,
 		};
 		console.log(errorInfo);
+		console.log(typeof(stackTraceInfo.stackTrace));
 		url="https://vimal-zt58.tsi.zohocorpin.com:9333/api/v1/logJSError?portalname=reactmig2"
 		params=errorInfo;
 		ajaxRequest("POST",url,params);
