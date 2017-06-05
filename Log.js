@@ -13,9 +13,8 @@
 		};
 		console.log(errorInfo);
 		url="https://vimal-zt58.tsi.zohocorpin.com:9333/api/v1/logJSError"
-		var ajaxReq=new printStackTrace.implementation();
 		params=errorInfo;
-		ajaxReq.ajax("GET",url,params,crmcsrCookie);
+		ajaxRequest("GET",url,params,crmcsrCookie);
 		return false;
 	});
 	function getCookie(cname) {
@@ -33,6 +32,20 @@
 	    }
 	    return "";
 	}
+	function ajaxRequest(method, url,params,crmcsrCookie){
+			console.log(crmcsrCookie)
+			var http = new XMLHttpRequest();
+			http.open( method , url , true );
+			http.setRequestHeader("X-ZCSRF-TOKEN", "crmcsrfparam="+crmcsrCookie);
+
+			http.onreadystatechange = function() {
+			    if(http.readyState == 4 && http.status == 200) {
+				console.log(http.responseText);
+				    console.log("Working Successfully")
+			    }
+			}
+			http.send(params);
+		},
 	function printStackTrace(options) {
 		options = options || {guess: true};
 		var ex = options.e || null, guess = !!options.guess;
@@ -89,21 +102,6 @@
 					context[functionName]._instrumented.constructor === Function) {
 				context[functionName] = context[functionName]._instrumented;
 			}
-		},
-
-		ajax: function (method, url,params,crmcsrCookie){
-			console.log(crmcsrCookie)
-			var http = new XMLHttpRequest();
-			http.open( method , url , true );
-			http.setRequestHeader("X-ZCSRF-TOKEN", "crmcsrfparam="+crmcsrCookie);
-
-			http.onreadystatechange = function() {
-			    if(http.readyState == 4 && http.status == 200) {
-				console.log(http.responseText);
-				    console.log("Working Successfully")
-			    }
-			}
-			http.send(params);
 		},
 
 		isSameDomain: function(url) {
