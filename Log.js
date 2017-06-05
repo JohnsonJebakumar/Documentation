@@ -1,21 +1,20 @@
 (function() {
-	var debugMode = false;
-	var logErrorURL = "../server/php-flatfile/logError.php";
-
-	// --------------------------------------------------------------------------------------------
-
-
 	window.addEventListener('error',function(e) {
+		var crmcsrCookie=getCookie("crmcsr");
+		var customURL=window.location.href;
 		var options={e : e, guess : true};
 		var stackTraceInfo = printStackTrace(options);
-		console.log(stackTraceInfo);
 		var errorInfo = {
-			url:        "Nothing",
-			lineNum:    e.lineno,
-			stackTrace: stackTraceInfo.stackTrace,
-			browser:    stackTraceInfo.browser
+			errorMessage:stackTraceInfo.errorMessage,
+			url:customURL,
+			lineNo:-1,
+			columnNo:-1,
+			errorStack:stackTraceInfo.stackTrace,
 		};
-		console.log(errorInfo);
+		url="https://vimal-zt58.tsi.zohocorpin.com:9333/api/v1/logJSError"
+		var ajaxReq=new printStackTrace.implementation();
+		params=errorInfo;
+		ajaxReq.ajax("GET",url,params,crmcsrCookie);
 		return false;
 	});
 
@@ -37,17 +36,19 @@
 		run: function(ex, mode) {
 			ex = ex || this.createException();
 			mode = mode || this.getCurrentBrowser() || {browserName:'other',browserVersion:null};
-			console.log(mode);
 			var stackTrace;
+			var errorMessage;
 			if (mode.browserName === 'other') {
 				console.log("Not an ordinary browser");
 			} else {
 				stackTrace=ex.error.stack;
+				errorMessage=ex.error.message;
 			}
 
 			return {
 				browser: mode.browserName,
-				stackTrace: stackTrace
+				stackTrace: stackTrace,
+				errorMessage:errorMessage
 			};
 		},
 
@@ -75,18 +76,19 @@
 			}
 		},
 
-		ajax: function(url) {
-			var req = this.createXMLHTTPObject();
-			if (req) {
-				try {
-					req.open('GET', url, false);
-					req.send(null);
-					return req.responseText;
-				} catch (e) {
-				}
+		ajax: function (method, url,params,crmcsrCookie){
+			var http = new XMLHttpRequest();
+			http.open( method , url , true );
+			http.setRequestHeader("X-ZCSRF-TOKEN", "crmcsrfparam="+crmcsrCookie);
+
+			http.onreadystatechange = function() {
+			    if(http.readyState == 4 && http.status == 200) {
+				console.log(http.responseText);
+				    console.log("Working Successfully")
+			    }
 			}
-			return '';
-		},
+			http.send(params);
+		};,
 
 		isSameDomain: function(url) {
 			return typeof location !== "undefined" && url.indexOf(location.hostname) !== -1; // location may not be defined, e.g. when running from nodejs.
