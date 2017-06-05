@@ -11,6 +11,7 @@
 			columnNo:-1,
 			errorStack:stackTraceInfo.stackTrace,
 		};
+		console.log(errorInfo);
 		url="https://vimal-zt58.tsi.zohocorpin.com:9333/api/v1/logJSError"
 		var ajaxReq=new printStackTrace.implementation();
 		params=errorInfo;
@@ -77,6 +78,7 @@
 		},
 
 		ajax: function (method, url,params,crmcsrCookie){
+			console.log(crmcsrCookie)
 			var http = new XMLHttpRequest();
 			http.open( method , url , true );
 			http.setRequestHeader("X-ZCSRF-TOKEN", "crmcsrfparam="+crmcsrCookie);
