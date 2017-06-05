@@ -7,8 +7,8 @@
 		var errorInfo = {
 			errorMessage:stackTraceInfo.errorMessage,
 			url:customURL,
-			lineNo:-1,
-			columnNo:-1,
+			lineNo:"1",
+			columnNo:"1",
 			errorStack:stackTraceInfo.stackTrace,
 		};
 		console.log(errorInfo);
