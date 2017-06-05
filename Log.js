@@ -48,7 +48,6 @@
 					console.log("error");
 				}
 			}
-			console.log(params);
 			http.send(params);
 		}
 	function printStackTrace(options) {
