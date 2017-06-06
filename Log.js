@@ -1,23 +1,52 @@
 (function() {
-	window.addEventListener('error',function(e) {
-		//var crmcsrCookie=getCookie("crmcsr");
+	var Browser=getBrowserName();
+	function getBrowserName(){
+		var ua= navigator.userAgent, tem, 
+		M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+		if(/trident/i.test(M[1])){
+			tem=  /\brv[ :]+(\d+)/g.exec(ua) || [];
+			return 'IE '+(tem[1] || '');
+		}
+		if(M[1]=== 'Chrome'){
+			tem= ua.match(/\b(OPR|Edge)\/(\d+)/);
+			if(tem!= null) return tem.slice(1).join(' ').replace('OPR', 'Opera');
+		}
+		M= M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
+		if((tem= ua.match(/version\/(\d+)/i))!= null) M.splice(1, 1, tem[1]);
+		return {browserName:M[0],browserVersion:M[1]};
+	   }
+	if (Browser.browserName != "MSIE")
+	{
+		window.addEventListener('error',function(e) {
+			var options={e : e, guess : true};
+			var stackTraceInfo = printStackTrace(options);
+			FinaliseWork(stackTraceInfo);
+			return false;
+		});
+	}
+	else if(Browser.browserName == "MSIE")
+	{
+		window.onerror = function(msg, url, lineNum) {
+			var options={e:{error:{message:msg},lineno:lineNum},guess: true};
+			var stackTraceInfo = printStackTrace(options);
+			FinaliseWork(stackTraceInfo);
+			return false;
+		}
+	}
+	function FinaliseWork(stackTraceInfo)
+	{
 		var customURL=window.location.href;
-		var options={e : e, guess : true};
-		var stackTraceInfo = printStackTrace(options);
 		var errorInfo = {
 			errorMessage:stackTraceInfo.errorMessage,
 			url:customURL,
-			lineNo:"1",
-			columnNo:"1",
-			errorStack:"stackTraceInfo.stackTrace",
+			lineNo:stackTraceInfo.lineNo,
+			columnNo:stackTraceInfo.columnNo,
+			errorStack:stackTraceInfo.stackTrace,
 		};
-		console.log(errorInfo);
-		console.log(typeof(stackTraceInfo.stackTrace));
 		url="http://vimal-zt58.tsi.zohocorpin.com:9037/api/v1/logJSError?portalname=reactmig2"
 		params=errorInfo;
 		ajaxRequest("POST",url,params);
-		return false;
-	});
+	}
 	function getCookie(cname) {
 	    var name = cname + "=";
 	    var decodedCookie = decodeURIComponent(document.cookie);
@@ -37,9 +66,9 @@
 			//console.log(crmcsrCookie)
 			var http = new XMLHttpRequest();
 			http.open( method , url , true );
-			http.setRequestHeader("X-ZCSRF-TOKEN", "be64ec6734393d415e011b2d0beefcb6c17fbb8e51e313a243d8bddfe0f32478e51266a8dfbc01bc185d123173ef7d4137893aa6155df43b622c4dc7eb2c5707");
+			http.setRequestHeader("X-ZCSRF-TOKEN", "crmcsrfparam=be64ec6734393d415e011b2d0beefcb6c17fbb8e51e313a243d8bddfe0f32478e51266a8dfbc01bc185d123173ef7d4137893aa6155df43b622c4dc7eb2c5707");
 			http.onreadystatechange = function() {
-			    if(http.readyState == 4 && http.status == 200) {
+			    if(http.readyState == 4 && http.status == 201) {
 				console.log(http.responseText);
 				    console.log("Working Successfully")
 			    }
@@ -53,7 +82,7 @@
 		}
 	function printStackTrace(options) {
 		options = options || {guess: true};
-		var ex = options.e || null, guess = !!options.guess;
+		var ex = options.e || null;
 		var p = new printStackTrace.implementation();
 		var response = p.run(ex);
 		return response;
@@ -67,28 +96,18 @@
 
 	printStackTrace.implementation.prototype = {
 		run: function(ex, mode) {
-			ex = ex || this.createException();
-			mode = mode || this.getCurrentBrowser() || {browserName:'other',browserVersion:null};
-			var stackTrace;
-			var errorMessage;
-			if (mode.browserName === 'other') {
-				console.log("Not an ordinary browser");
-			} else {
-				stackTrace=ex.error.stack;
-				errorMessage=ex.error.message;
-			}
+			ex = ex;
+			var stackTrace=ex.error.stack || null;
+			var errorMessage=ex.error.message || null;
+			var lineNo=ex.lineno || -1;
+			var columnNo=ex.colno || -1;
 
 			return {
-				browser: mode.browserName,
 				stackTrace: stackTrace,
-				errorMessage:errorMessage
+				errorMessage:errorMessage,
+				lineNo:lineNo,
+				columnNo:columnNo
 			};
-		},
-
-		getCurrentBrowser: function(){
-			var browserDetails=navigator.userAgent;
-			var browserArray=browserDetails.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
-			return {browserName:browserArray[1],browserVersion:browserArray[2]};
 		},
 
 		instrumentFunction: function(context, functionName, callback) {
@@ -114,7 +133,7 @@
 		},
 		getSource: function(url) {
 			if (!(url in this.sourceCache)) {
-				this.sourceCache[url] = this.ajax(url).split('\n');
+				this.sourceCache[url] = this.ajax(url).split('');
 			}
 			return this.sourceCache[url];
 		},
