@@ -63,20 +63,18 @@
 	    return "";
 	}
 	function ajaxRequest(method, url,params){
-			//console.log(crmcsrCookie)
 			var http = new XMLHttpRequest();
 			http.open( method , url , true );
 			http.setRequestHeader("X-ZCSRF-TOKEN", "crmcsrfparam=be64ec6734393d415e011b2d0beefcb6c17fbb8e51e313a243d8bddfe0f32478e51266a8dfbc01bc185d123173ef7d4137893aa6155df43b622c4dc7eb2c5707");
 			http.onreadystatechange = function() {
 			    if(http.readyState == 4 && http.status == 201) {
 				console.log(http.responseText);
-				    console.log("Working Successfully")
+				console.log("Working Successfully")
 			    }
-				else
-				{
-					console.log(http);
-					console.log("error");
-				}
+			    else
+			    {
+				console.log("error");
+			    }
 			}
 			http.send(JSON.stringify(params));
 		}
